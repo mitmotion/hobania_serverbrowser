@@ -1,0 +1,58 @@
+unittests:
+  extends: .recompile-branch
+  stage: build
+  image: registry.gitlab.com/veloren/veloren-docker-ci/cache/quality:${CACHE_IMAGE_TAG}
+  tags: ["veloren/*", "check"]
+  variables:
+    GIT_DEPTH: 9999999999999
+  script:
+    - ln -s /dockercache/target target
+    - rm -r target/debug/incremental/veloren_* || echo "all good" # TMP FIX FOR 2021-03-22-nightly
+    - rm -r target/debug/incremental* || echo "all good" # TMP FIX FOR 2021-03-22-nightly
+    - cargo test --all-features
+  retry:
+    max: 2
+
+# Coverage is needed on master for the README.md badge to work
+# tmp remove simd as it doesnt work with tarpaulin: https://github.com/rust-lang/rust/issues/77529
+#coverage:
+#  extends: .publish
+#  stage: build
+#  image: registry.gitlab.com/veloren/veloren-docker-ci/cache/tarpaulin:${CACHE_IMAGE_TAG}
+#  script:
+#    - ln -s /dockercache/target target
+#    - rm -r target/debug/incremental/veloren_* || echo "all good" # TMP FIX FOR 2021-03-22-nightly
+#    - find ./* -name "Cargo.toml" -exec sed -i 's/, "simd"]/]/g' {} \;
+#    - find ./* -name "Cargo.toml" -exec sed -i 's/"simd"]/]/g' {} \;
+#    - sed -i 's/vek /#vek /g' ./Cargo.toml;
+#    - cargo tarpaulin -v -- --test-threads=2
+#  retry:
+#    max: 2
+
+#linux, windows, macos builds here as template
+.tlinux:
+  image: registry.gitlab.com/veloren/veloren-docker-ci/cache/release-linux-x86_64:${CACHE_IMAGE_TAG}
+  script:
+    - ln -s /dockercache/target target
+    - rm -r target/release/incremental/veloren_* || echo "all good" # TMP FIX FOR 2021-03-22-nightly
+    - cargo build --release -p serverbrowser --all-features
+    - cp -r target/release/serverbrowser $CI_PROJECT_DIR
+  artifacts:
+    paths:
+      - serverbrowser
+      - LICENSE
+    expire_in: 1 week
+
+# build on release or master
+linux:
+  extends:
+    - .tlinux
+    - .release
+  tags: ["veloren/*", "build", "publish", "trusted"]
+
+# if NOT release or master, allow optional builds
+opt-linux:
+  extends:
+    - .tlinux
+    - .optional-release
+  tags: ["veloren/*", "build"]
