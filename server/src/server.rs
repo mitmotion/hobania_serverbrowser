@@ -1,12 +1,10 @@
-use crate::{
-    gameservers::{GameServer, SERVERS},
-    metrics::Metrics,
-};
+use crate::{gameservers::SERVERS, metrics::Metrics};
 use axum::{
     extract::Extension, http::StatusCode, response::IntoResponse, routing::get, Json, Router,
 };
 use prometheus::{default_registry, Encoder, TextEncoder};
 use std::{net::SocketAddr, sync::Arc};
+use veloren_serverbrowser_api::GameServerList;
 
 // Context for our reconciler
 #[derive(Clone)]
@@ -48,7 +46,7 @@ async fn metrics() -> Result<impl IntoResponse, StatusCode> {
     Ok(buffer)
 }
 
-async fn servers(Extension(context): Extension<Arc<Context>>) -> Json<Vec<GameServer>> {
+async fn servers(Extension(context): Extension<Arc<Context>>) -> Json<GameServerList> {
     context
         .metrics
         .request
@@ -59,7 +57,7 @@ async fn servers(Extension(context): Extension<Arc<Context>>) -> Json<Vec<GameSe
         .request_duration
         .with_label_values(&["/v1/servers"])
         .start_timer();
-    Json((*SERVERS).to_vec())
+    Json(SERVERS.clone())
 }
 
 async fn health() {}

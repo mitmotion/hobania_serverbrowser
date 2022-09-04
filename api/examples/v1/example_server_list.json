@@ -1,0 +1,14 @@
+{
+    "servers": [
+        {
+            "name": "Official Server",
+            "address": "veloren.net",
+            "port": 14004,
+            "description": "discord:  https://discord.gg/ecUxc9N",
+            "location": "DE",
+            "authServer": "https://auth.veloren.net",
+            "channel": "weekly",
+            "official": true
+        }
+    ]
+}
