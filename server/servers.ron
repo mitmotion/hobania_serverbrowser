@@ -1,7 +1,7 @@
 (
     servers: [
         (
-            name: "Official Server",
+            name: "Veloren Project Official Server (EU#1)",
             address: "veloren.net",
             port: 14004,
             description: "discord:  https://discord.gg/ecUxc9N",
@@ -9,6 +9,36 @@
             authServer: Some("https://auth.veloren.net"),
             channel: Some("weekly"),
             official: true,
+        ),
+        (
+            name: "VelorenJeiter",
+            address: "45.235.99.93",
+            port: 14004,
+            description: "discord: https://discord.gg/nFMYHYc3 LITTLE server with whitelist, please ask on our discord to join",
+            location: "AR",
+            authServer: Some("https://auth.veloren.net"),
+            channel: Some("weekly"),
+            official: false,
+        ),
+        (
+            name: "Mundo Veloren 1",
+            address: "88.214.59.205",
+            port: 14004,
+            description: "discord: https://discord.gg/tCgSX3mSzx Mundo Veloren / Spanish community",
+            location: "US",
+            authServer: Some("https://auth.veloren.net"),
+            channel: Some("weekly"),
+            official: false,
+        ),
+        (
+            name: "Mundo Veloren 2",
+            address: "194.156.89.53",
+            port: 14004,
+            description: "discord: https://discord.gg/tCgSX3mSzx Mundo Veloren / Spanish community",
+            location: "US",
+            authServer: Some("https://auth.veloren.net"),
+            channel: Some("weekly"),
+            official: false,
         ),
         (
             name: "VELOREN LATAM 🔥",
