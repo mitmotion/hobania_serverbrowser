@@ -12,8 +12,7 @@ lazy_static! {
             .iter()
             .cloned()
             .filter(|f| f.auth_server == Some(OFFICIAL_AUTH.to_string()))
-            .collect(),
-        ..*SERVERS
+            .collect()
     };
 }
 
