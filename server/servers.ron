@@ -2,7 +2,7 @@
     servers: [
         (
             name: "Veloren Project Official Server (EU#1)",
-            address: "veloren.net",
+            address: "server.veloren.net",
             port: 14004,
             description: "discord:  https://discord.gg/ecUxc9N",
             location: "DE",
