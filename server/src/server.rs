@@ -1,4 +1,4 @@
-use crate::{gameservers::SERVERS, metrics::Metrics};
+use crate::{gameservers::SERVERS_LIMITED, metrics::Metrics};
 use axum::{
     extract::Extension, http::StatusCode, response::IntoResponse, routing::get, Json, Router,
 };
@@ -57,7 +57,7 @@ async fn servers(Extension(context): Extension<Arc<Context>>) -> Json<GameServer
         .request_duration
         .with_label_values(&["/v1/servers"])
         .start_timer();
-    Json(SERVERS.clone())
+    Json(SERVERS_LIMITED.clone())
 }
 
 async fn health() {}
