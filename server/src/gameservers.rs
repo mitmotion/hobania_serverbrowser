@@ -2,6 +2,7 @@ use lazy_static::lazy_static;
 use veloren_serverbrowser_api::GameServerList;
 
 const OFFICIAL_AUTH: &str = "https://auth.veloren.net";
+const OFFICIAL_CHANNEL: &str = "weekly";
 
 lazy_static! {
     pub static ref SERVERS: GameServerList =
@@ -12,6 +13,7 @@ lazy_static! {
             .iter()
             .cloned()
             .filter(|f| f.auth_server == Some(OFFICIAL_AUTH.to_string()))
+            .filter(|f| f.channel == Some(OFFICIAL_CHANNEL.to_string()))
             .collect()
     };
 }
@@ -34,10 +36,7 @@ mod tests {
             .collect::<Vec<_>>();
         assert_eq!(servers.len(), 1, "MORE THAN 1 OFFICIAL SERVER");
         assert_eq!(servers[0].address, "veloren.net");
-        assert_eq!(
-            servers[0].auth_server,
-            Some("https://auth.veloren.net".to_string())
-        );
+        assert_eq!(servers[0].auth_server, Some(OFFICIAL_AUTH.to_string()));
     }
 
     #[test]
@@ -55,6 +54,13 @@ mod tests {
                 .servers
                 .iter()
                 .find(|x| x.auth_server != Some(OFFICIAL_AUTH.to_string())),
+            None
+        );
+        assert_eq!(
+            SERVERS_LIMITED
+                .servers
+                .iter()
+                .find(|x| x.channel != Some(OFFICIAL_CHANNEL.to_string())),
             None
         )
     }
