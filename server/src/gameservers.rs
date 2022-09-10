@@ -12,7 +12,7 @@ lazy_static! {
             .servers
             .iter()
             .cloned()
-            .filter(|f| f.auth_server == Some(OFFICIAL_AUTH.to_string()))
+            .filter(|f| f.auth_server == *OFFICIAL_AUTH)
             .filter(|f| f.channel == Some(OFFICIAL_CHANNEL.to_string()))
             .collect()
     };
@@ -28,15 +28,11 @@ mod tests {
     }
 
     #[test]
-    fn check_official_server() {
-        let servers = SERVERS
-            .servers
-            .iter()
-            .filter(|s| s.official)
-            .collect::<Vec<_>>();
-        assert_eq!(servers.len(), 1, "MORE THAN 1 OFFICIAL SERVER");
-        assert_eq!(servers[0].address, "veloren.net");
-        assert_eq!(servers[0].auth_server, Some(OFFICIAL_AUTH.to_string()));
+    fn check_official_servers() {
+        SERVERS.servers.iter().filter(|s| s.official).for_each(|s| {
+            assert!(s.address.ends_with("veloren.net"));
+            assert_eq!(s.auth_server, OFFICIAL_AUTH.to_string());
+        });
     }
 
     #[test]
@@ -53,7 +49,7 @@ mod tests {
             SERVERS_LIMITED
                 .servers
                 .iter()
-                .find(|x| x.auth_server != Some(OFFICIAL_AUTH.to_string())),
+                .find(|x| x.auth_server != *OFFICIAL_AUTH),
             None
         );
         assert_eq!(
