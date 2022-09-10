@@ -22,7 +22,8 @@
         "address",
         "port",
         "description",
-        "official"
+        "official",
+        "auth_server"
       ],
       "additionalProperties": false,
       "properties": {
@@ -46,7 +47,7 @@
           "type": "string",
           "description": "Description of the Server"
         },
-        "authServer": {
+        "auth_server": {
           "type": "string",
           "description": "FQDN of auth server used"
         },

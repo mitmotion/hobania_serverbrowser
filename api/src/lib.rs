@@ -8,14 +8,13 @@ pub mod v1 {
         Deserialize, Serialize,
     };
 
-    #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+    #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
     pub struct GameServerList {
         /// List of all servers registered to this serverbrowser
         pub servers: Vec<GameServer>,
     }
 
-    #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-    #[serde(rename_all = "camelCase")]
+    #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
     pub struct GameServer {
         /// The name of the server.
         pub name: String,
@@ -34,9 +33,9 @@ pub mod v1 {
         #[serde(serialize_with = "serialize_country")]
         #[serde(default)]
         pub location: Option<Country>,
-        /// The auth server that must be used to connect to this server. `None`
-        /// means the server is not using any auth server. If you want to use the official auth server use `Some("https://auth.veloren.net")`
-        pub auth_server: Option<String>,
+        /// The auth server that must be used to connect to this server.
+        /// If you want to use the official auth server use `Some("https://auth.veloren.net")`
+        pub auth_server: String,
         /// The version channel used by the server. `None` means not running a
         /// channel distributed by Airshipper. If in doubt, `"weekly"`
         /// is probably correct.
@@ -74,7 +73,7 @@ pub mod v1 {
             port: u16,
             desc: &str,
             location: Option<Country>,
-            auth: Option<&str>,
+            auth: &str,
             channel: Option<&str>,
             official: bool,
         ) -> Self {
@@ -84,7 +83,7 @@ pub mod v1 {
                 port,
                 description: desc.to_string(),
                 location,
-                auth_server: auth.map(|a| a.to_string()),
+                auth_server: auth.to_string(),
                 channel: channel.map(|c| c.to_string()),
                 official,
             }
