@@ -10,3 +10,8 @@ To request a new server to be added to the Server Browser please raise a new iss
 2) The server must auto-update to the weekly channel. A docker-compose.yml file which includes server auto-updating to the Weekly channel using [Watchtower](https://containrrr.dev/watchtower/) is available here: https://gitlab.com/veloren/veloren/-/blob/master/server-cli/docker-compose.yml
 3) Emojis must not be used in the server name or description as Airshipper does not currently support rendering emoji characters.
 3) Whilst not mandatory, it is suggested that the server be configured to respond to ICMP ping requests otherwise its status will show as _Error_ in the server browser.
+
+# FAQ
+
+## Why is this a manual process? Can't you automate servers registering with the Server Browser?
+This is planned for a future release of the Server Browser - manual registration is only required in the short term while we implement the additional features required to facilitate server auto-registration.
