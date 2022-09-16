@@ -90,5 +90,15 @@
             channel: Some("weekly"),
             official: false,
         ),
+        (
+            name: "[US East] Ravengard",
+            address: "veloren.ravengard.net",
+            port: 14004,
+            description: "A Veloren server hosted in New York, United States. Discord server found at https://discord.ravengard.net/",
+            location: "US",
+            auth_server: "https://auth.veloren.net",
+            channel: Some("weekly"),
+            official: false,
+        ),
     ],
 )
