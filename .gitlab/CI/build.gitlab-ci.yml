@@ -2,7 +2,7 @@ unittests:
   extends: .recompile-branch
   stage: build
   image: registry.gitlab.com/veloren/veloren-docker-ci/cache/quality:${CACHE_IMAGE_TAG}
-  tags: ["veloren/*", "check"]
+  tags: ["docker", "linux"]
   variables:
     GIT_DEPTH: 9999999999999
   script:
