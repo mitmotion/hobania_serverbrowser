@@ -62,7 +62,7 @@
         ),
         (
             name: "VLRN",
-            address: "vlrn.duckdns.org",
+            address: "vlrn.hnrq.dev",
             port: 14004,
             description: " É o Brasil, esqueça tudo https://discord.gg/9Uexb5zsn8",
             location: "BR",
