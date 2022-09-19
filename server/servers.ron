@@ -72,7 +72,7 @@
         ),
         (
             name: "HostEZ.io Veloren Community",
-            address: "51.222.146.193",
+            address: "veloren.hostez.io",
             port: 14004,
             description: "https://hostez.io/discord - Vanilla - Daily reboots",
             location: "US",
