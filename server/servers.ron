@@ -160,5 +160,15 @@
             channel: Some("weekly"),
             official: false,
         ),
+        (
+            name: "NoCap Vel",
+            address: "51.161.197.99",
+            port: 14004,
+            description: "Australian Veloren server hosted by NoCap - Discord https://discord.gg/5dyU59e6Ek",
+            location: "AUS",
+            auth_server: "https://auth.veloren.net",
+            channel: Some("weekly"),
+            official: false,
+        ),
     ],
 )
