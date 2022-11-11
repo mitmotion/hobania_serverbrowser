@@ -40,7 +40,7 @@ mod tests {
         let pretty =
             ron::ser::to_string_pretty(&*SERVERS, ron::ser::PrettyConfig::default()).unwrap();
         let original = std::str::from_utf8(include_bytes!("../servers.ron")).unwrap();
-        assert_eq!(original, pretty);
+        assert_eq!(original.trim(), pretty);
     }
 
     #[test]
