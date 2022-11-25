@@ -1,4 +1,4 @@
-pub use v1::{GameServer, GameServerList};
+pub use v1::{Field, FieldContent, GameServer, GameServerList};
 
 pub mod v1 {
     use country_parser::Country;
@@ -7,6 +7,7 @@ pub mod v1 {
         ser::Serializer,
         Deserialize, Serialize,
     };
+    use std::collections::HashMap;
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
     pub struct GameServerList {
@@ -43,6 +44,41 @@ pub mod v1 {
         /// Whether the server is officially affiliated with the Veloren
         /// project.
         pub official: bool,
+        /// Any extra attributes provided by the server.
+        ///
+        /// The key is a machine-readable ID. Frontends may choose to display these fields in a different way (for
+        /// example, adding an icon) based on this machine-readable ID, if they recognise it. There is no specific
+        /// list of valid IDs and recognition is based on convention. Some examples of IDs include:
+        ///
+        /// - `website`
+        /// - `email`
+        /// - `discord`
+        /// - `mastodon`
+        /// - `reddit`
+        /// - `youtube`
+        #[serde(default, skip_serializing_if = "HashMap::is_empty")]
+        pub extra: HashMap<String, Field>,
+    }
+
+    #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
+    pub struct Field {
+        /// A human-readable suggested name. Frontends are permitted to override this name for purposes such as
+        /// localisation or aesthetic purposes.
+        pub name: String,
+        /// The content of the field.
+        pub content: FieldContent,
+    }
+
+    #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
+    #[non_exhaustive]
+    pub enum FieldContent {
+        /// This field's content should be interpreted as human-readable plaintext.
+        Text(String),
+        /// This field's content should be interpreted as a URL.
+        Url(String),
+        /// This field's content was of an unknown format.
+        #[serde(other)]
+        Unknown,
     }
 
     fn deserialize_country<'de, D: Deserializer<'de>>(de: D) -> Result<Option<Country>, D::Error> {
@@ -76,6 +112,7 @@ pub mod v1 {
             auth: &str,
             channel: Option<&str>,
             official: bool,
+            extra: HashMap<String, Field>,
         ) -> Self {
             Self {
                 name: name.to_string(),
@@ -86,6 +123,7 @@ pub mod v1 {
                 auth_server: auth.to_string(),
                 channel: channel.map(|c| c.to_string()),
                 official,
+                extra,
             }
         }
     }
