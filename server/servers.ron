@@ -153,8 +153,8 @@
         (
             name: "Veloren Latino",
             address: "play.velorenla.com",
-            port: 14004,
-            description: "Servidor de Veloren para América Latina | Con tu ayuda podemos crear la mejor comunidad de Veloren | ¡Únete a la aventura! | Visita: https://velorenlatino.com",
+            port: 27180,
+            description: "Servidor de Veloren para América Latina | Con tu ayuda podemos crear la mejor comunidad de Veloren | ¡Únete a la aventura! | Visita: https://velorenlatino.com | Discord https://discord.com/invite/fuCYnG3YJy",
             location: "MX",
             auth_server: "https://auth.veloren.net",
             channel: Some("weekly"),
