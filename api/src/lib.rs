@@ -74,14 +74,17 @@ pub mod v1 {
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
     #[non_exhaustive]
+    #[serde(rename_all = "lowercase")]
     pub enum FieldContent {
         /// This field's content should be interpreted as human-readable
         /// plaintext.
         Text(String),
         /// This field's content should be interpreted as a URL.
         Url(String),
-        /// This field's content was of an unknown format.
+        /// This field's content was of an unknown format. This cannot be
+        /// serialized but only exists to guarantee forward compatibility
         #[serde(other)]
+        #[serde(skip_serializing)]
         Unknown,
     }
 
@@ -160,5 +163,50 @@ mod tests {
         )
         .unwrap();
         serde_json::to_string_pretty(&data).unwrap();
+    }
+
+    #[test]
+    fn serialize_unknown_is_not_possible() {
+        let field = Field {
+            name: "never_serialze".to_string(),
+            content: FieldContent::Unknown,
+        };
+        let result = serde_json::to_string(&field);
+        assert!(result.is_err());
+        assert!(result.unwrap_err().is_data());
+    }
+
+    #[test]
+    fn check_json_schema() {
+        use jsonschema::JSONSchema;
+        use serde_json::Value;
+        let schema = serde_json::de::from_reader::<_, Value>(
+            &include_bytes!("../examples/v1/schema.json")[..],
+        )
+        .unwrap();
+        JSONSchema::compile(&schema).expect("A valid schema");
+    }
+
+    #[test]
+    fn validate_json_schema() {
+        use jsonschema::JSONSchema;
+        use serde_json::Value;
+        let schema = serde_json::de::from_reader::<_, Value>(
+            &include_bytes!("../examples/v1/schema.json")[..],
+        )
+        .unwrap();
+        let json = serde_json::de::from_reader::<_, Value>(
+            &include_bytes!("../examples/v1/example_server_list.json")[..],
+        )
+        .unwrap();
+        let compiled = JSONSchema::compile(&schema).expect("A valid schema");
+        let result = compiled.validate(&json);
+        if let Err(errors) = result {
+            for error in errors {
+                println!("Validation error: {}", error);
+                println!("Instance path: {}", error.instance_path);
+            }
+            panic!("json schema isn't valid");
+        }
     }
 }
