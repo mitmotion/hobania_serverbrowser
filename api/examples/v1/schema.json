@@ -62,9 +62,65 @@
         "extra": {
           "type": "object",
           "additionalProperties": true,
+          "propertyNames": {
+            "pattern": "^[a-z][a-z_]*$"
+          },
+          "patternProperties": {
+            "^.*": { "$ref": "#/$defs/extra" }
+          },
           "description": "extra fields for the server in various formats"
         }
       }
+    },
+    "extra": {
+      "type": "object",
+      "required": [
+        "name",
+        "content"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A human-readable suggested name"
+        },
+        "content": {
+          "$ref": "#/$defs/extra-content",
+          "description": "The content of the field."
+        }
+      }
+    },
+    "extra-content": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "This field's content should be interpreted as a URL"
+        },
+        "text": {
+          "type": "string",
+          "description": "This field's content should be interpreted as human-readable plaintext"
+        },
+        "unknown": {
+          "type": "string",
+          "description": "This field's content was of an unknown format"
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["url"]
+        },
+        {
+          "type": "object",
+          "required": ["text"]
+        },
+        {
+          "type": "object",
+          "required": ["unknown"]
+        }
+      ]
     }
   }
 }

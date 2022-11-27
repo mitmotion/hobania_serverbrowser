@@ -74,6 +74,7 @@ pub mod v1 {
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
     #[non_exhaustive]
+    #[serde(rename_all = "lowercase")]
     pub enum FieldContent {
         /// This field's content should be interpreted as human-readable
         /// plaintext.
@@ -160,5 +161,39 @@ mod tests {
         )
         .unwrap();
         serde_json::to_string_pretty(&data).unwrap();
+    }
+
+    #[test]
+    fn check_json_schema() {
+        use jsonschema::JSONSchema;
+        use serde_json::Value;
+        let schema = serde_json::de::from_reader::<_, Value>(
+            &include_bytes!("../examples/v1/schema.json")[..],
+        )
+        .unwrap();
+        JSONSchema::compile(&schema).expect("A valid schema");
+    }
+
+    #[test]
+    fn validate_json_schema() {
+        use jsonschema::JSONSchema;
+        use serde_json::Value;
+        let schema = serde_json::de::from_reader::<_, Value>(
+            &include_bytes!("../examples/v1/schema.json")[..],
+        )
+        .unwrap();
+        let json = serde_json::de::from_reader::<_, Value>(
+            &include_bytes!("../examples/v1/example_server_list.json")[..],
+        )
+        .unwrap();
+        let compiled = JSONSchema::compile(&schema).expect("A valid schema");
+        let result = compiled.validate(&json);
+        if let Err(errors) = result {
+            for error in errors {
+                println!("Validation error: {}", error);
+                println!("Instance path: {}", error.instance_path);
+            }
+            panic!("json schema isn't valid");
+        }
     }
 }

@@ -12,11 +12,11 @@ GameServerList(
             extra: {
                 "discord": (
                     name: "Discord",
-                    content: Url("https://discord.gg/ecUxc9N"),
+                    content: url("https://discord.gg/ecUxc9N"),
                 ),
                 "owners": (
                     name: "Server Owners",
-                    content: Text("The Veloren core development team"),
+                    content: text("The Veloren core development team"),
                 ),
             },
         )

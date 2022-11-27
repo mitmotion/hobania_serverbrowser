@@ -13,13 +13,13 @@
                 "discord": {
                     "name": "Discord",
                     "content": {
-                        "Url": "https://discord.gg/ecUxc9N"
+                        "url": "https://discord.gg/ecUxc9N"
                     }
                 },
                 "owners": {
                     "name": "Server Owners",
                     "content": {
-                        "Text": "The Veloren core development team"
+                        "text": "The Veloren core development team"
                     }
                 }
             }
