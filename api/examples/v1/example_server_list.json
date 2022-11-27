@@ -8,7 +8,21 @@
             "location": "DE",
             "auth_server": "https://auth.veloren.net",
             "channel": "weekly",
-            "official": true
+            "official": true,
+            "extra": {
+                "discord": {
+                    "name": "Discord",
+                    "content": {
+                        "Url": "https://discord.gg/ecUxc9N"
+                    }
+                },
+                "owners": {
+                    "name": "Server Owners",
+                    "content": {
+                        "Text": "The Veloren core development team"
+                    }
+                }
+            }
         }
     ]
 }

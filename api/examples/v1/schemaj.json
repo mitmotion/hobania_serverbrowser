@@ -58,6 +58,11 @@
         "official": {
           "type": "boolean",
           "description": "is the gameserver officially hosted by the veloren developers"
+        },
+        "extra": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "extra fields for the server in various formats"
         }
       }
     }
