@@ -81,8 +81,10 @@ pub mod v1 {
         Text(String),
         /// This field's content should be interpreted as a URL.
         Url(String),
-        /// This field's content was of an unknown format.
+        /// This field's content was of an unknown format. This cannot be
+        /// serialized but only exists to guarantee forward compatibility
         #[serde(other)]
+        #[serde(skip_serializing)]
         Unknown,
     }
 
@@ -161,6 +163,17 @@ mod tests {
         )
         .unwrap();
         serde_json::to_string_pretty(&data).unwrap();
+    }
+
+    #[test]
+    fn serialize_unknown_is_not_possible() {
+        let field = Field {
+            name: "never_serialze".to_string(),
+            content: FieldContent::Unknown,
+        };
+        let result = serde_json::to_string(&field);
+        assert!(result.is_err());
+        assert!(result.unwrap_err().is_data());
     }
 
     #[test]

@@ -101,10 +101,6 @@
         "text": {
           "type": "string",
           "description": "This field's content should be interpreted as human-readable plaintext"
-        },
-        "unknown": {
-          "type": "null",
-          "description": "This field's content was of an unknown format"
         }
       },
       "oneOf": [
@@ -115,10 +111,6 @@
         {
           "type": "object",
           "required": ["text"]
-        },
-        {
-          "type": "object",
-          "required": ["unknown"]
         }
       ]
     }
