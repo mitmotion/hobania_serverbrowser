@@ -18,6 +18,10 @@ GameServerList(
                     name: "Server Owners",
                     content: text("The Veloren core development team"),
                 ),
+                "deprecated": (
+                    name: "representing something that gets converted to Unknown",
+                    content: Unknown,
+                ),
             },
         )
     ]

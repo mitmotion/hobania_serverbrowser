@@ -21,6 +21,12 @@
                     "content": {
                         "text": "The Veloren core development team"
                     }
+                },
+                "deprecated": {
+                    "name": "representing something that gets converted to Unknown",
+                    "content": {
+                        "unknown": null
+                    }
                 }
             }
         }

@@ -103,7 +103,7 @@
           "description": "This field's content should be interpreted as human-readable plaintext"
         },
         "unknown": {
-          "type": "string",
+          "type": "null",
           "description": "This field's content was of an unknown format"
         }
       },
