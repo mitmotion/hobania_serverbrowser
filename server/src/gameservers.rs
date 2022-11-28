@@ -21,6 +21,11 @@ lazy_static! {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use regex::Regex;
+    use url::{Host, Origin, Url};
+    use veloren_serverbrowser_api::FieldContent;
+
+    const EXTRA_ID_REGEX: &str = r"^[a-z][a-z_]*$";
 
     #[test]
     fn check_server_list_valid() {
@@ -59,5 +64,63 @@ mod tests {
                 .find(|x| x.channel != Some(OFFICIAL_CHANNEL.to_string())),
             None
         )
+    }
+
+    #[test]
+    fn verify_field_id_valid() {
+        let re = Regex::new(EXTRA_ID_REGEX).unwrap();
+        assert_eq!(
+            SERVERS_LIMITED
+                .servers
+                .iter()
+                .find(|x| x.extra.iter().any(|(id, _)| !re.is_match(id))),
+            None
+        );
+    }
+
+    #[test]
+    fn verify_field_content_no_unknown() {
+        assert_eq!(
+            SERVERS_LIMITED.servers.iter().find(|x| x
+                .extra
+                .iter()
+                .any(|(_, field)| matches!(field.content, FieldContent::Unknown))),
+            None
+        );
+    }
+
+    #[test]
+    fn verify_field_content_urls_valid() {
+        assert_eq!(
+            SERVERS_LIMITED
+                .servers
+                .iter()
+                .find(|x| x.extra.iter().any(|(_, field)| match &field.content {
+                    FieldContent::Url(u) => Url::parse(u).is_err(),
+                    _ => false,
+                })),
+            None
+        );
+    }
+
+    /// in order to not trick people we should only provide discord URLs starting with `https://discord.gg/`
+    #[test]
+    fn verify_discord_urls() {
+        let discord_origin: Origin = Origin::Tuple(
+            String::from("https"),
+            Host::Domain(String::from("discord.gg")),
+            443,
+        );
+        assert_eq!(
+            SERVERS_LIMITED
+                .servers
+                .iter()
+                .find(|x| x.extra.iter().any(|(id, field)| match &field.content {
+                    FieldContent::Url(u) if *id == "discord" =>
+                        Url::parse(u).unwrap().origin() != discord_origin,
+                    _ => false,
+                })),
+            None
+        );
     }
 }
