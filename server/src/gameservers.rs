@@ -103,12 +103,25 @@ mod tests {
         );
     }
 
-    /// in order to not trick people we should only provide discord URLs starting with `https://discord.gg/`
+    /// in order to not trick people we should validate certain Urls:
+    /// discord `https://discord.gg/`
+    /// youtube: `https://youtube.com/c/` || `https://youtube.com/watch`
+    /// reddit: `https://reddit.com/r/`
     #[test]
-    fn verify_discord_urls() {
+    fn verify_extra_urls_phishing() {
         let discord_origin: Origin = Origin::Tuple(
             String::from("https"),
             Host::Domain(String::from("discord.gg")),
+            443,
+        );
+        let reddit_origin: Origin = Origin::Tuple(
+            String::from("https"),
+            Host::Domain(String::from("reddit.com")),
+            443,
+        );
+        let youtube_origin: Origin = Origin::Tuple(
+            String::from("https"),
+            Host::Domain(String::from("youtube.com")),
             443,
         );
         assert_eq!(
@@ -116,8 +129,21 @@ mod tests {
                 .servers
                 .iter()
                 .find(|x| x.extra.iter().any(|(id, field)| match &field.content {
-                    FieldContent::Url(u) if *id == "discord" =>
-                        Url::parse(u).unwrap().origin() != discord_origin,
+                    FieldContent::Url(u) => {
+                        let url = Url::parse(u).unwrap();
+                        !match id.as_str() {
+                            "discord" => url.origin() == discord_origin,
+                            "reddit" => {
+                                url.origin() == reddit_origin && url.path().starts_with("/r/")
+                            },
+                            "youtube" => {
+                                url.origin() == youtube_origin
+                                    && (url.path().starts_with("/c/")
+                                        || url.path().starts_with("/watch"))
+                            },
+                            _ => true,
+                        }
+                    },
                     _ => false,
                 })),
             None

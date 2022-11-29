@@ -14,9 +14,17 @@
                     name: "Discord",
                     content: url("https://discord.gg/ecUxc9N"),
                 ),
+                "reddit": (
+                    name: "r/veloren",
+                    content: url("https://reddit.com/r/Veloren"),
+                ),
                 "website": (
                     name: "Veloren.net",
                     content: url("https://veloren.net"),
+                ),
+                "youtube": (
+                    name: "Youtube",
+                    content: url("https://youtube.com/c/Veloren"),
                 ),
             },
         ),
