@@ -9,7 +9,8 @@ To request a new server to be added to the Server Browser please raise a new iss
 1) The server must be using the official https://auth.veloren.net auth server (this restriction will be removed in the future following the replacement of our current auth solution)
 2) The server must auto-update to the weekly channel. A docker-compose.yml file which includes server auto-updating to the Weekly channel using [Watchtower](https://containrrr.dev/watchtower/) is available here: https://gitlab.com/veloren/veloren/-/blob/master/server-cli/docker-compose.yml
 3) Emojis must not be used in the server name or description as Airshipper does not currently support rendering emoji characters.
-3) Whilst not mandatory, it is suggested that the server be configured to respond to ICMP ping requests otherwise its status will show as _Error_ in the server browser.
+4) Whilst not mandatory, it is suggested that the server be configured to respond to ICMP ping requests otherwise its status will show as _Error_ in the server browser.
+5) Open a  [Ticket here](https://gitlab.com/veloren/serverbrowser/-/issues/new?issuable_template=New%20Server), read through it and fill it out
 
 # FAQ
 
