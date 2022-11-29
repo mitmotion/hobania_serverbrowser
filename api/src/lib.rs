@@ -58,7 +58,11 @@ pub mod v1 {
         /// - `mastodon`
         /// - `reddit`
         /// - `youtube`
-        #[serde(default, skip_serializing_if = "HashMap::is_empty")]
+        #[serde(
+            default,
+            skip_serializing_if = "HashMap::is_empty",
+            serialize_with = "ordered_map"
+        )]
         pub extra: HashMap<String, Field>,
     }
 
@@ -133,6 +137,14 @@ pub mod v1 {
                 extra,
             }
         }
+    }
+
+    fn ordered_map<S>(value: &HashMap<String, Field>, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let ordered: std::collections::BTreeMap<_, _> = value.iter().collect();
+        ordered.serialize(serializer)
     }
 }
 
