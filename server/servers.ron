@@ -225,7 +225,7 @@
         (
             name: "Veloren Latino",
             address: "play.velorenla.com",
-            port: 27180,
+            port: 14004,
             description: "Servidor de Veloren para América Latina | Con tu ayuda podemos crear la mejor comunidad de Veloren | ¡Únete a la aventura!",
             location: "MX",
             auth_server: "https://auth.veloren.net",
