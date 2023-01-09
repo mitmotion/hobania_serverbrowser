@@ -278,5 +278,21 @@
                 ),
             },
         ),
+        (
+            name: "Veloren Brasil",
+            address: "server01.velorenbrasil.com.br",
+            port: 14004,
+            description: "Visite nosso site: velorenbrasil.com.br",
+            location: "BR",
+            auth_server: "https://auth.veloren.net",
+            channel: Some("weekly"),
+            official: false,
+            extra: {
+                "discord": (
+                    name: "Discord",
+                    content: url("https://discord.gg/Fz439Zrfqu"),
+                ),
+            },
+        ),
     ],
 )
